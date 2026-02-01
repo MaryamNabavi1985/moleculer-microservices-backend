@@ -1,11 +1,15 @@
+require("dotenv").config();
+
+const path = require("path");
+
 const {ServiceBroker} = require("moleculer");
 
 const broker = new ServiceBroker({
     logger: true
 });
 
-broker.loadService("./services/greeter.service.js");
+broker.loadServices(path.join(__dirname, "services"));
 
 broker.start()
-    .then(() => broker.call("greeter.hello"))
-    .then(res => console.log(res));
+    .then(() => console.log(`API Gateway running on port ${process.env.PORT}`));
+  
