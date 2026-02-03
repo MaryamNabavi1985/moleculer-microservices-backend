@@ -14,7 +14,11 @@ module.exports = {
                 path : "/api",
 
                 aliases : {
-                    "GET /hello" : "greeter.hello"
+                    "GET /hello" : "greeter.hello",
+
+                    "GET /users" : "users.list",
+                    "GET /users/:id" : "users.get",
+                    "POST /users" : "users.create"
                 }
              }
         ]
