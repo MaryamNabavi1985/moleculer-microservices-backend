@@ -16,22 +16,25 @@ module.exports = {
     modelName: "User",
 
     schema:{
-        name: {
-            type: String,
-            required: true,
-            minLength: 2
-        }
+        name: {type: "string", required: true, minLength: 2},
+        email :{type: "string", required:true},
+        password :{type:"string", required: true}
     },
 
     actions:{
         create :{
             params: {
-                name: "string|min:2"
-            },
-            async handler(ctx){
-                return this.adapter.insert({
-                    name: ctx.params.name
-                });
+                name: "string|min:2",
+                email: "email",
+                password: "string|min:6"
+             },
+             async handler(ctx) {
+        const user = await this.adapter.insert({
+          name: ctx.params.name,
+          email: ctx.params.email,
+          password: ctx.params.password
+        });
+             return user;
             }
         }
     }

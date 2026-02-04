@@ -18,7 +18,14 @@ module.exports = {
 
                     "GET /users" : "users.list",
                     "GET /users/:id" : "users.get",
-                    "POST /users" : "users.create"
+                    "POST /users" : "users.create",
+
+                    "POST auth/login": "auth.login",
+                    "POST auth/register": "auth.register"
+                },
+
+                bodyParsers: {
+                    json: true,
                 }
              }
         ]
