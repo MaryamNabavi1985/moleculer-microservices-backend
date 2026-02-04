@@ -1,42 +1,39 @@
 "use strict";
 
+const DbService = require('moleculer-db');
+const MongooseAdapter = require('moleculer-db-adapter-mongoose');
+const mongoUri = process.env.MONGO_URI || "mongodb://localhost:27017/moleculer-demo";
+
 module.exports = {
     name: "users",
+    
+    mixins: [DbService],
 
-    actions : {
-        list:{
-            handler(){
-                return [
-                {id:1, name:"Maryam"},
-                {id:2, name:"Morteza"},
-                {id:3, name:"Ardavan"}
-            ]
-            }
-          
-        },
+    adapter: new MongooseAdapter(mongoUri),
 
-             get: {
+    collection: "users",
+    
+    modelName: "User",
+
+    schema:{
+        name: {
+            type: String,
+            required: true,
+            minLength: 2
+        }
+    },
+
+    actions:{
+        create :{
             params: {
-                id: "number|convert"
+                name: "string|min:2"
             },
-            handler(ctx) {
-                return {
-                    id: ctx.params.id,
-                    name: "Maryam"
-                };
+            async handler(ctx){
+                return this.adapter.insert({
+                    name: ctx.params.name
+                });
             }
-        },
-        create:{
-            params: {
-                name: "string|min:3"
-            },  
-            handler(ctx){
-                 return {
-                id: Date.now(),
-                name: ctx.params.name
-            };
-            }  
-           
         }
     }
+          
 };
